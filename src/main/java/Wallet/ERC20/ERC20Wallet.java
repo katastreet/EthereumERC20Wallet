@@ -59,7 +59,7 @@ public class ERC20Wallet {
 	 * @return
 	 * @throws Exception
 	 */
-	public BigInteger amount(String address) throws Exception {
+	public BigInteger getBalance(String address) throws Exception {
 		BigInteger valueOf = erc20Interface.balanceOf("0x" +address).send();
 		return valueOf;
 	}
