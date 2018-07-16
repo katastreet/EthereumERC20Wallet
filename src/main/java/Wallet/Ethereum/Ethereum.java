@@ -7,6 +7,7 @@ import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.Keys;
 import org.spongycastle.util.encoders.Hex;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -63,12 +64,17 @@ public class Ethereum implements Cryptocurrency{
         
     }
     
-    //gets 65 byte public key byte i.e 64 bytes and one 0x00
     
+    //get address from public 
     public String getAddress(byte[] privateKey)
     {
     	Credentials node = Credentials.create(Hex.toHexString(privateKey));
     	return node.getAddress();
+    }
+    
+  //gets 65 byte public key byte i.e 64 bytes and one 0x00
+    public String getAddressP(byte[] publicKey) {
+    	return Keys.getAddress(Hex.toHexString(publicKey));
     }
     
     /**

@@ -37,6 +37,8 @@ public class EthereumTest {
 			byte[] privateKey = ethereum.newPrivateKey();
 			String privateKeyH = Hex.toHexString(privateKey);
 			
+			System.out.println(ethereum.getAddressP(ethereum.publicKey(privateKey)));
+			
 			System.out.println(privateKeyH);
 			System.out.println(ethereum.getAddress(privateKey));
 			
