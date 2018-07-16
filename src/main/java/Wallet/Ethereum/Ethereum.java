@@ -7,8 +7,6 @@ import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 
 import org.web3j.crypto.Credentials;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.solidity.SolidityType.StaticArrayType;
 import org.spongycastle.util.encoders.Hex;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -20,6 +18,7 @@ import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 
 import Wallet.Cryptocurrency;
+import Wallet.lib.ECKeyPair;
 
 
 public class Ethereum implements Cryptocurrency{
@@ -41,14 +40,14 @@ public class Ethereum implements Cryptocurrency{
 
     @Override
     public byte[] newPrivateKey() {
-    	ECKey key = new ECKey();
-    	return key.getPrivKeyBytes();
+    	 ECKeyPair keyPair = ECKeyPair.createNew(true);
+    	 return keyPair.getPrivate();
     }
 
     @Override
     public byte[] newPrivateKey(byte[] seed) {
-        ECKey key = ECKey.fromPrivate(seed);
-        return key.getPrivKeyBytes();
+    	 ECKeyPair keyPair = ECKeyPair.create(seed);
+    	 return keyPair.getPrivate();
     }
 
     @Override
@@ -59,16 +58,17 @@ public class Ethereum implements Cryptocurrency{
     //returns 65 byte public key i.e 64 bytes and one 0x00
     @Override
     public byte[] publicKey(byte[] privateKey) {
-        ECKey key = ECKey.fromPrivate(privateKey);
-        return key.getPubKey();
+    	ECKeyPair keyPair = ECKeyPair.create(privateKey);
+    	return keyPair.getPublic();
         
     }
     
     //gets 65 byte public key byte i.e 64 bytes and one 0x00
     
-    public String getAddress(byte[] publicKey)
+    public String getAddress(byte[] privateKey)
     {
-    	return Hex.toHexString(ECKey.computeAddress(publicKey));
+    	Credentials node = Credentials.create(Hex.toHexString(privateKey));
+    	return node.getAddress();
     }
     
     /**
