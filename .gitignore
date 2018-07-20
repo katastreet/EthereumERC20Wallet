@@ -16,3 +16,5 @@ out
 .settings/
 logs/
 *.iml
+
+src/main/java/Library.java
